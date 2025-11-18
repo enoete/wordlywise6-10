@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Vocabulary Test - Lessons 6-10</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 2.2em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #e0e0e0;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding: 25px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+        }
+
+        .section-title {
+            font-size: 1.5em;
+            color: #667eea;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .question {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .question-text {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .choices {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .choice {
+            padding: 15px;
+            background: #f5f5f5;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 1em;
+        }
+
+        .choice:hover {
+            background: #e8e8e8;
+            transform: translateX(5px);
+        }
+
+        .choice.selected {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .choice.correct {
+            background: #4caf50;
+            color: white;
+            border-color: #4caf50;
+        }
+
+        .choice.incorrect {
+            background: #f44336;
+            color: white;
+            border-color: #f44336;
+        }
+
+        .matching-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .matching-column {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .matching-item {
+            padding: 15px;
+            background: #f5f5f5;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .matching-item:hover {
+            background: #e8e8e8;
+        }
+
+        .matching-item.selected {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .matching-item.matched {
+            background: #4caf50;
+            color: white;
+            border-color: #4caf50;
+            cursor: not-allowed;
+        }
+
+        .matching-item.wrong {
+            background: #f44336;
+            color: white;
+            border-color: #f44336;
+            animation: shake 0.3s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .fill-blank {
+            margin: 15px 0;
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+
+        .blank-input {
+            padding: 8px 15px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            min-width: 150px;
+            font-family: Arial, sans-serif;
+        }
+
+        .blank-input.correct {
+            border-color: #4caf50;
+            background: #e8f5e9;
+        }
+
+        .blank-input.incorrect {
+            border-color: #f44336;
+            background: #ffebee;
+        }
+
+        .submit-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border-radius: 8px;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .submit-btn:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .results {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 10px;
+            margin-top: 30px;
+            display: none;
+        }
+
+        .results h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .results p {
+            font-size: 1.3em;
+            margin: 10px 0;
+        }
+
+        .score {
+            font-size: 3em;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 0.9em;
+        }
+
+        .feedback.correct {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .feedback.incorrect {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        @media (max-width: 768px) {
+            .matching-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌟 Ultimate Vocabulary Test 🌟</h1>
+        <p class="subtitle">Lessons 6-10 Comprehensive Review</p>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar">0%</div>
+        </div>
+
+        <!-- SECTION 1: Multiple Choice - Definitions -->
+        <div class="section">
+            <div class="section-title">📖 Part 1: Match Definitions (15 questions)</div>
+            
+            <div class="question" data-section="1" data-question="1" data-answer="b">
+                <div class="question-text">1. What does "abolish" mean?</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) To make stronger</div>
+                    <div class="choice" data-choice="b">b) To do away with completely</div>
+                    <div class="choice" data-choice="c">c) To repair something</div>
+                    <div class="choice" data-choice="d">d) To celebrate an event</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="1" data-question="2" data-answer="c">
+                <div class="question-text">2. What does "agony" mean?</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) A feeling of happiness</div>
+                    <div class="choice" data-choice="b">b) A state of peace</div>
+                    <div class="choice" data-choice="c">c) Great pain or suffering</div>
+                    <div class="choice" data-choice="d">d) A moment of victory</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="1" data-question="3" data-answer="a">
+                <div class="question-text">3. What does "harbor" mean?</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) To give shelter or protection to</div>
+                    <div class="choice" data-choice="b">b) To throw away</div>
+                    <div class="choice" data-choice="c">c) To run quickly</div>
+                    <div class="choice" data-choice="d">d) To sing loudly</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="1" data-question="4" data-answer="d">
+                <div class="question-text">4. What does "frigid" mean?</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) Very hot</div>
+                    <div class="choice" data-choice="b">b) Moderately warm</div>
+                    <div class="choice" data-choice="c">c) Pleasant temperature</div>
+                    <div class="choice" data-choice="d">d) Extremely cold</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="1" data-question="5" data-answer="b">
+                <div class="question-text">5. What does "compensate" mean?</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) To make something worse</div>
+                    <div class="choice" data-choice="b">b) To make up for something</div>
+                    <div class="choice" data-choice="c">c) To destroy completely</div>
+                    <div class="choice" data-choice="d">d) To ignore a problem</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="1" data-question="6" data-answer="c">
+                <div class="question-text">6. What does "assemble" mean?</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) To break apart</div>
+                    <div class="choice" data-choice="b">b) To hide something</div>
+                    <div class="choice" data-choice="c">c) To gather together or put together</div>
+                    <div class="choice" data-choice="d">d) To run away</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="1" data-question="7" data-answer="a">
+                <div class="question-text">7. What does "frivolous" mean?</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) Silly and not serious</div>
+                    <div class="choice" data-choice="b">b) Very important</div>
+                    <div class="choice" data-choice="c">c) Extremely dangerous</div>
+                    <div class="choice" data-choice="d">d) Highly educated</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="1" data-question="8" data-answer="d">
+                <div class="question-text">8. What does "accomplish" mean?</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) To fail at something</div>
+                    <div class="choice" data-choice="b">b) To start a task</div>
+                    <div class="choice" data-choice="c">c) To think about doing</div>
+                    <div class="choice" data-choice="d">d) To complete successfully</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="1" data-question="9" data-answer="b">
+                <div class="question-text">9. What does "suspend" mean?</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) To continue forever</div>
+                    <div class="choice" data-choice="b">b) To hang or to stop temporarily</div>
+                    <div class="choice" data-choice="c">c) To speed up</div>
+                    <div class="choice" data-choice="d">d) To make louder</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="1" data-question="10" data-answer="c">
+                <div class="question-text">10. What does "liberate" mean?</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) To capture someone</div>
+                    <div class="choice" data-choice="b">b) To punish harshly</div>
+                    <div class="choice" data-choice="c">c) To set free</div>
+                    <div class="choice" data-choice="d">d) To confuse greatly</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="1" data-question="11" data-answer="a">
+                <div class="question-text">11. What does "yearning" mean?</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) A deep longing or desire</div>
+                    <div class="choice" data-choice="b">b) A feeling of anger</div>
+                    <div class="choice" data-choice="c">c) Complete satisfaction</div>
+                    <div class="choice" data-choice="d">d) Total confusion</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="1" data-question="12" data-answer="d">
+                <div class="question-text">12. What does "monstrous" mean?</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) Very small</div>
+                    <div class="choice" data-choice="b">b) Beautifully decorated</div>
+                    <div class="choice" data-choice="c">c) Pleasantly surprising</div>
+                    <div class="choice" data-choice="d">d) Extremely horrible or large</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="1" data-question="13" data-answer="b">
+                <div class="question-text">13. What does "waddle" mean?</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) To fly gracefully</div>
+                    <div class="choice" data-choice="b">b) To walk with short steps, swaying side to side</div>
+                    <div class="choice" data-choice="c">c) To run very fast</div>
+                    <div class="choice" data-choice="d">d) To stand perfectly still</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="1" data-question="14" data-answer="c">
+                <div class="question-text">14. What does "edible" mean?</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) Poisonous</div>
+                    <div class="choice" data-choice="b">b) Invisible</div>
+                    <div class="choice" data-choice="c">c) Safe to eat</div>
+                    <div class="choice" data-choice="d">d) Very colorful</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="1" data-question="15" data-answer="a">
+                <div class="question-text">15. What does "dense" mean?</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) Tightly packed or thick</div>
+                    <div class="choice" data-choice="b">b) Very light and airy</div>
+                    <div class="choice" data-choice="c">c) Completely empty</div>
+                    <div class="choice" data-choice="d">d) Perfectly smooth</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 2: Context Clues -->
+        <div class="section">
+            <div class="section-title">🔍 Part 2: Choose the Right Word (15 questions)</div>
+            
+            <div class="question" data-section="2" data-question="1" data-answer="c">
+                <div class="question-text">16. The teacher had to _____ the student from class for bad behavior.</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) reassure</div>
+                    <div class="choice" data-choice="b">b) harvest</div>
+                    <div class="choice" data-choice="c">c) suspend</div>
+                    <div class="choice" data-choice="d">d) resemble</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="2" data-question="2" data-answer="b">
+                <div class="question-text">17. The eagle began to _____ high above the mountains.</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) waddle</div>
+                    <div class="choice" data-choice="b">b) soar</div>
+                    <div class="choice" data-choice="c">c) lumber</div>
+                    <div class="choice" data-choice="d">d) deposit</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="2" data-question="3" data-answer="d">
+                <div class="question-text">18. The small disagreement began to _____ into a major conflict.</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) compensate</div>
+                    <div class="choice" data-choice="b">b) translate</div>
+                    <div class="choice" data-choice="c">c) rouse</div>
+                    <div class="choice" data-choice="d">d) escalate</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="2" data-question="4" data-answer="a">
+                <div class="question-text">19. The activists gathered to _____ the unfair policies.</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) denounce</div>
+                    <div class="choice" data-choice="b">b) catapult</div>
+                    <div class="choice" data-choice="c">c) prosper</div>
+                    <div class="choice" data-choice="d">d) evade</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="2" data-question="5" data-answer="c">
+                <div class="question-text">20. Farmers will _____ the crops when they are ready.</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) meddle</div>
+                    <div class="choice" data-choice="b">b) inflict</div>
+                    <div class="choice" data-choice="c">c) harvest</div>
+                    <div class="choice" data-choice="d">d) loathe</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="2" data-question="6" data-answer="b">
+                <div class="question-text">21. The mother bird will _____ her eggs in the nest.</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) oppose</div>
+                    <div class="choice" data-choice="b">b) deposit</div>
+                    <div class="choice" data-choice="c">c) pursue</div>
+                    <div class="choice" data-choice="d">d) prohibit</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="2" data-question="7" data-answer="d">
+                <div class="question-text">22. The lawyer tried to help the prisoners and _____ them from jail.</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) terminate</div>
+                    <div class="choice" data-choice="b">b) hew</div>
+                    <div class="choice" data-choice="c">c) mimic</div>
+                    <div class="choice" data-choice="d">d) liberate</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="2" data-question="8" data-answer="a">
+                <div class="question-text">23. The wealthy family decided to _____ money to the charity.</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) donate</div>
+                    <div class="choice" data-choice="b">b) inflict</div>
+                    <div class="choice" data-choice="c">c) abolish</div>
+                    <div class="choice" data-choice="d">d) waddle</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="2" data-question="9" data-answer="c">
+                <div class="question-text">24. The criminal tried to _____ the police by hiding in different places.</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) assemble</div>
+                    <div class="choice" data-choice="b">b) resemble</div>
+                    <div class="choice" data-choice="c">c) evade</div>
+                    <div class="choice" data-choice="d">d) rouse</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="2" data-question="10" data-answer="b">
+                <div class="question-text">25. The explorers will _____ the mountain to reach the summit.</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) waddle</div>
+                    <div class="choice" data-choice="b">b) ascend</div>
+                    <div class="choice" data-choice="c">c) lumber</div>
+                    <div class="choice" data-choice="d">d) decrease</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="2" data-question="11" data-answer="d">
+                <div class="question-text">26. The new law will _____ smoking in all public buildings.</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) establish</div>
+                    <div class="choice" data-choice="b">b) celebrate</div>
+                    <div class="choice" data-choice="c">c) compensate</div>
+                    <div class="choice" data-choice="d">d) prohibit</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="2" data-question="12" data-answer="a">
+                <div class="question-text">27. She had a deep _____ to return to her homeland.</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) yearning</div>
+                    <div class="choice" data-choice="b">b) cargo</div>
+                    <div class="choice" data-choice="c">c) spectator</div>
+                    <div class="choice" data-choice="d">d) banquet</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="2" data-question="13" data-answer="c">
+                <div class="question-text">28. The comedian loves to _____ famous celebrities.</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) loathe</div>
+                    <div class="choice" data-choice="b">b) inflict</div>
+                    <div class="choice" data-choice="c">c) mimic</div>
+                    <div class="choice" data-choice="d">d) denounce</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="2" data-question="14" data-answer="b">
+                <div class="question-text">29. The detective will _____ the suspect through the city.</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) reassure</div>
+                    <div class="choice" data-choice="b">b) pursue</div>
+                    <div class="choice" data-choice="c">c) harvest</div>
+                    <div class="choice" data-choice="d">d) resemble</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="2" data-question="15" data-answer="d">
+                <div class="question-text">30. The scientist will _____ with different chemicals to find a cure.</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) waddle</div>
+                    <div class="choice" data-choice="b">b) catapult</div>
+                    <div class="choice" data-choice="c">c) meddle</div>
+                    <div class="choice" data-choice="d">d) experiment</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 3: Matching -->
+        <div class="section">
+            <div class="section-title">🔗 Part 3: Match Words to Definitions (15 pairs)</div>
+            <p style="margin-bottom: 20px; color: #666;">Tap a word on the left, then tap its matching definition on the right. Correct matches will turn green!</p>
+            
+            <div id="matchingGame">
+                <div class="matching-container">
+                    <div class="matching-column" id="wordsColumn"></div>
+                    <div class="matching-column" id="definitionsColumn"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 4: More Multiple Choice -->
+        <div class="section">
+            <div class="section-title">🎯 Part 4: More Word Knowledge (20 questions)</div>
+            
+            <div class="question" data-section="4" data-question="1" data-answer="b">
+                <div class="question-text">46. A large, fancy dinner with many people is called a _____.</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) cargo</div>
+                    <div class="choice" data-choice="b">b) banquet</div>
+                    <div class="choice" data-choice="c">c) colony</div>
+                    <div class="choice" data-choice="d">d) occasion</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="4" data-question="2" data-answer="c">
+                <div class="question-text">47. When a book is changed from one language to another, it is _____.</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) abolished</div>
+                    <div class="choice" data-choice="b">b) harbored</div>
+                    <div class="choice" data-choice="c">c) translated</div>
+                    <div class="choice" data-choice="d">d) escalated</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="4" data-question="3" data-answer="a">
+                <div class="question-text">48. Something that is weak and easily broken is _____.</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) flimsy</div>
+                    <div class="choice" data-choice="b">b) rigid</div>
+                    <div class="choice" data-choice="c">c) substantial</div>
+                    <div class="choice" data-choice="d">d) dense</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="4" data-question="4" data-answer="d">
+                <div class="question-text">49. Someone who interferes in other people's business is _____.</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) solitary</div>
+                    <div class="choice" data-choice="b">b) reluctant</div>
+                    <div class="choice" data-choice="c">c) heroic</div>
+                    <div class="choice" data-choice="d">d) meddlesome</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="4" data-question="5" data-answer="b">
+                <div class="question-text">50. A person in a story, play, or movie is a _____.</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) spectator</div>
+                    <div class="choice" data-choice="b">b) character</div>
+                    <div class="choice" data-choice="c">c) superior</div>
+                    <div class="choice" data-choice="d">d) cargo</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="4" data-question="6" data-answer="c">
+                <div class="question-text">51. Someone who is very weak and has little strength is _____.</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) steadfast</div>
+                    <div class="choice" data-choice="b">b) heroic</div>
+                    <div class="choice" data-choice="c">c) feeble</div>
+                    <div class="choice" data-choice="d">d) superior</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="4" data-question="7" data-answer="a">
+                <div class="question-text">52. Groups of animals or people living close together are called _____.</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) colonies</div>
+                    <div class="choice" data-choice="b">b) casks</div>
+                    <div class="choice" data-choice="c">c) spectators</div>
+                    <div class="choice" data-choice="d">d) establishments</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="4" data-question="8" data-answer="d">
+                <div class="question-text">53. Severe, difficult, or unpleasant conditions are _____.</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) frivolous</div>
+                    <div class="choice" data-choice="b">b) formal</div>
+                    <div class="choice" data-choice="c">c) edible</div>
+                    <div class="choice" data-choice="d">d) harsh</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="4" data-question="9" data-answer="b">
+                <div class="question-text">54. The goods carried by a ship or truck are called _____.</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) harvest</div>
+                    <div class="choice" data-choice="b">b) cargo</div>
+                    <div class="choice" data-choice="c">c) bondage</div>
+                    <div class="choice" data-choice="d">d) lumber</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="4" data-question="10" data-answer="c">
+                <div class="question-text">55. Large wooden barrels used for storing liquids are called _____.</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) colonies</div>
+                    <div class="choice" data-choice="b">b) occasions</div>
+                    <div class="choice" data-choice="c">c) casks</div>
+                    <div class="choice" data-choice="d">d) cargo</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="4" data-question="11" data-answer="a">
+                <div class="question-text">56. A situation that is nearly hopeless is _____.</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) desperate</div>
+                    <div class="choice" data-choice="b">b) frivolous</div>
+                    <div class="choice" data-choice="c">c) formal</div>
+                    <div class="choice" data-choice="d">d) remote</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="4" data-question="12" data-answer="d">
+                <div class="question-text">57. Something that is too large or awkward to handle easily is _____.</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) flimsy</div>
+                    <div class="choice" data-choice="b">b) edible</div>
+                    <div class="choice" data-choice="c">c) solitary</div>
+                    <div class="choice" data-choice="d">d) unwieldy</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="4" data-question="13" data-answer="b">
+                <div class="question-text">58. Something important and meaningful is _____.</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) absurd</div>
+                    <div class="choice" data-choice="b">b) significant</div>
+                    <div class="choice" data-choice="c">c) frivolous</div>
+                    <div class="choice" data-choice="d">d) meddlesome</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="4" data-question="14" data-answer="c">
+                <div class="question-text">59. People who watch an event are _____.</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) superiors</div>
+                    <div class="choice" data-choice="b">b) characters</div>
+                    <div class="choice" data-choice="c">c) spectators</div>
+                    <div class="choice" data-choice="d">d) colonies</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="4" data-question="15" data-answer="a">
+                <div class="question-text">60. To move slowly and clumsily is to _____.</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) lumber</div>
+                    <div class="choice" data-choice="b">b) soar</div>
+                    <div class="choice" data-choice="c">c) waddle</div>
+                    <div class="choice" data-choice="d">d) ascend</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="4" data-question="16" data-answer="d">
+                <div class="question-text">61. A place where business is conducted or an organization is _____.</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) a colony</div>
+                    <div class="choice" data-choice="b">b) a cargo</div>
+                    <div class="choice" data-choice="c">c) bondage</div>
+                    <div class="choice" data-choice="d">d) an establishment</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="4" data-question="17" data-answer="b">
+                <div class="question-text">62. Someone who is unwilling or hesitant to do something is _____.</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) steadfast</div>
+                    <div class="choice" data-choice="b">b) reluctant</div>
+                    <div class="choice" data-choice="c">c) heroic</div>
+                    <div class="choice" data-choice="d">d) meddlesome</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="4" data-question="18" data-answer="c">
+                <div class="question-text">63. The state of being a slave or held captive is _____.</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) liberation</div>
+                    <div class="choice" data-choice="b">b) prosperity</div>
+                    <div class="choice" data-choice="c">c) bondage</div>
+                    <div class="choice" data-choice="d">d) yearning</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="4" data-question="19" data-answer="a">
+                <div class="question-text">64. To honor or observe a special event is to _____.</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) celebrate</div>
+                    <div class="choice" data-choice="b">b) denounce</div>
+                    <div class="choice" data-choice="c">c) abolish</div>
+                    <div class="choice" data-choice="d">d) terminate</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="4" data-question="20" data-answer="d">
+                <div class="question-text">65. To cause pain or harm to someone is to _____.</div>
+                <div class="choices">
+                    <div class="choice" data-choice="a">a) reassure</div>
+                    <div class="choice" data-choice="b">b) compensate</div>
+                    <div class="choice" data-choice="c">c) liberate</div>
+                    <div class="choice" data-choice="d">d) inflict</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 5: True or False -->
+        <div class="section">
+            <div class="section-title">✅ Part 5: True or False (10 questions)</div>
+            
+            <div class="question" data-section="5" data-question="1" data-answer="true">
+                <div class="question-text">66. "Solitary" means being alone.</div>
+                <div class="choices">
+                    <div class="choice" data-choice="true">True</div>
+                    <div class="choice" data-choice="false">False</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="5" data-question="2" data-answer="false">
+                <div class="question-text">67. To "prosper" means to fail completely.</div>
+                <div class="choices">
+                    <div class="choice" data-choice="true">True</div>
+                    <div class="choice" data-choice="false">False</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="5" data-question="3" data-answer="true">
+                <div class="question-text">68. A "grim" situation is unpleasant and serious.</div>
+                <div class="choices">
+                    <div class="choice" data-choice="true">True</div>
+                    <div class="choice" data-choice="false">False</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="5" data-question="4" data-answer="false">
+                <div class="question-text">69. "Rigid" means flexible and bendable.</div>
+                <div class="choices">
+                    <div class="choice" data-choice="true">True</div>
+                    <div class="choice" data-choice="false">False</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="5" data-question="5" data-answer="true">
+                <div class="question-text">70. "Steadfast" means loyal and unchanging.</div>
+                <div class="choices">
+                    <div class="choice" data-choice="true">True</div>
+                    <div class="choice" data-choice="false">False</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="5" data-question="6" data-answer="false">
+                <div class="question-text">71. "Substantial" means very small or insignificant.</div>
+                <div class="choices">
+                    <div class="choice" data-choice="true">True</div>
+                    <div class="choice" data-choice="false">False</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="5" data-question="7" data-answer="true">
+                <div class="question-text">72. "Hostile" means unfriendly or showing opposition.</div>
+                <div class="choices">
+                    <div class="choice" data-choice="true">True</div>
+                    <div class="choice" data-choice="false">False</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="5" data-question="8" data-answer="false">
+                <div class="question-text">73. Something "absurd" is sensible and logical.</div>
+                <div class="choices">
+                    <div class="choice" data-choice="true">True</div>
+                    <div class="choice" data-choice="false">False</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="5" data-question="9" data-answer="true">
+                <div class="question-text">74. To "rouse" someone means to wake them up or stir them to action.</div>
+                <div class="choices">
+                    <div class="choice" data-choice="true">True</div>
+                    <div class="choice" data-choice="false">False</div>
+                </div>
+            </div>
+
+            <div class="question" data-section="5" data-question="10" data-answer="true">
+                <div class="question-text">75. "Numerous" means many or a large number.</div>
+                <div class="choices">
+                    <div class="choice" data-choice="true">True</div>
+                    <div class="choice" data-choice="false">False</div>
+                </div>
+            </div>
+        </div>
+
+        <button class="submit-btn" id="submitBtn">Submit Test</button>
+
+        <div class="results" id="results">
+            <h2>🎉 Test Complete! 🎉</h2>
+            <div class="score" id="scoreDisplay"></div>
+            <p id="scoreMessage"></p>
+            <p style="margin-top: 20px;">Great job on completing all 75 questions!</p>
+        </div>
+    </div>
+
+    <script>
+        // Matching game data
+        const matchingPairs = [
+            { word: "catapult", definition: "To launch suddenly to success or fame" },
+            { word: "loathe", definition: "To hate or dislike greatly" },
+            { word: "remote", definition: "Far away in time or distance" },
+            { word: "resemble", definition: "To look like or be similar to" },
+            { word: "formal", definition: "Following strict rules or ceremonies" },
+            { word: "decrease", definition: "To become less or smaller" },
+            { word: "hew", definition: "To chop or cut with an ax" },
+            { word: "prosper", definition: "To be successful or thrive" },
+            { word: "terminate", definition: "To bring to an end" },
+            { word: "heroic", definition: "Showing great courage or bravery" },
+            { word: "occasion", definition: "A particular time or event" },
+            { word: "reassure", definition: "To comfort or restore confidence" },
+            { word: "superior", definition: "Better than others or higher in rank" },
+            { word: "oppose", definition: "To be against or resist" },
+            { word: "establish", definition: "To set up or create" }
+        ];
+
+        let selectedWord = null;
+        let selectedDefinition = null;
+        let matchedPairs = 0;
+        let userAnswers = {};
+
+        // Initialize matching game
+        function initMatchingGame() {
+            const wordsColumn = document.getElementById('wordsColumn');
+            const definitionsColumn = document.getElementById('definitionsColumn');
+            
+            // Shuffle definitions
+            const shuffledDefinitions = [...matchingPairs].sort(() => Math.random() - 0.5);
+            
+            matchingPairs.forEach((pair, index) => {
+                const wordDiv = document.createElement('div');
+                wordDiv.className = 'matching-item';
+                wordDiv.textContent = pair.word;
+                wordDiv.dataset.word = pair.word;
+                wordDiv.dataset.definition = pair.definition;
+                wordDiv.onclick = () => selectWord(wordDiv);
+                wordsColumn.appendChild(wordDiv);
+            });
+            
+            shuffledDefinitions.forEach((pair, index) => {
+                const defDiv = document.createElement('div');
+                defDiv.className = 'matching-item';
+                defDiv.textContent = pair.definition;
+                defDiv.dataset.word = pair.word;
+                defDiv.dataset.definition = pair.definition;
+                defDiv.onclick = () => selectDefinition(defDiv);
+                definitionsColumn.appendChild(defDiv);
+            });
+        }
+
+        function selectWord(element) {
+            if (element.classList.contains('matched')) return;
+            
+            document.querySelectorAll('#wordsColumn .matching-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            element.classList.add('selected');
+            selectedWord = element;
+            
+            if (selectedDefinition) {
+                checkMatch();
+            }
+        }
+
+        function selectDefinition(element) {
+            if (element.classList.contains('matched')) return;
+            
+            document.querySelectorAll('#definitionsColumn .matching-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            element.classList.add('selected');
+            selectedDefinition = element;
+            
+            if (selectedWord) {
+                checkMatch();
+            }
+        }
+
+        function checkMatch() {
+            if (selectedWord.dataset.word === selectedDefinition.dataset.word) {
+                selectedWord.classList.remove('selected');
+                selectedWord.classList.add('matched');
+                selectedDefinition.classList.remove('selected');
+                selectedDefinition.classList.add('matched');
+                matchedPairs++;
+                userAnswers[`matching_${matchedPairs}`] = 'correct';
+                updateProgress();
+            } else {
+                selectedWord.classList.add('wrong');
+                selectedDefinition.classList.add('wrong');
+                
+                setTimeout(() => {
+                    selectedWord.classList.remove('wrong', 'selected');
+                    selectedDefinition.classList.remove('wrong', 'selected');
+                }, 500);
+            }
+            
+            selectedWord = null;
+            selectedDefinition = null;
+        }
+
+        // Handle multiple choice questions
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('choice')) {
+                const question = e.target.closest('.question');
+                const section = question.dataset.section;
+                const questionNum = question.dataset.question;
+                
+                if (section === '5') {
+                    // True/False - single selection
+                    question.querySelectorAll('.choice').forEach(choice => {
+                        choice.classList.remove('selected');
+                    });
+                    e.target.classList.add('selected');
+                    userAnswers[`s${section}_q${questionNum}`] = e.target.dataset.choice;
+                } else {
+                    // Multiple choice - single selection
+                    question.querySelectorAll('.choice').forEach(choice => {
+                        choice.classList.remove('selected');
+                    });
+                    e.target.classList.add('selected');
+                    userAnswers[`s${section}_q${questionNum}`] = e.target.dataset.choice;
+                }
+                
+                updateProgress();
+            }
+        });
+
+        function updateProgress() {
+            const totalQuestions = 75;
+            let answered = 0;
+            
+            // Count multiple choice answers
+            answered += Object.keys(userAnswers).filter(key => key.startsWith('s')).length;
+            
+            // Count matching pairs
+            answered += matchedPairs;
+            
+            const percentage = Math.round((answered / totalQuestions) * 100);
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = percentage + '%';
+            progressBar.textContent = percentage + '%';
+        }
+
+        // Update progress on input
+        // (No longer needed, but keeping event listener structure)
+
+        // Submit button
+        document.getElementById('submitBtn').addEventListener('click', function() {
+            let score = 0;
+            let totalQuestions = 75;
+            
+            // Grade multiple choice
+            document.querySelectorAll('.question[data-answer]').forEach(question => {
+                const section = question.dataset.section;
+                const questionNum = question.dataset.question;
+                const correctAnswer = question.dataset.answer;
+                const userAnswer = userAnswers[`s${section}_q${questionNum}`];
+                
+                question.querySelectorAll('.choice').forEach(choice => {
+                    if (choice.dataset.choice === correctAnswer) {
+                        choice.classList.add('correct');
+                    } else if (choice.dataset.choice === userAnswer && userAnswer !== correctAnswer) {
+                        choice.classList.add('incorrect');
+                    }
+                });
+                
+                if (userAnswer === correctAnswer) {
+                    score++;
+                }
+            });
+            
+            // Grade matching (already graded)
+            score += matchedPairs;
+            
+            // Display results
+            const percentage = Math.round((score / totalQuestions) * 100);
+            document.getElementById('scoreDisplay').textContent = `${score} / ${totalQuestions}`;
+            document.getElementById('scoreMessage').textContent = `You scored ${percentage}%`;
+            document.getElementById('results').style.display = 'block';
+            
+            // Disable submit button
+            this.disabled = true;
+            this.textContent = 'Test Submitted';
+            
+            // Scroll to results
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Initialize
+        initMatchingGame();
+    </script>
+</body>
+</html>
